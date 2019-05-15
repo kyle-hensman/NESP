@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const axios = require('axios');
+const bcrypt = require('bcrypt-nodejs');
 
 // configure passport.js to use the local strategy
 passport.use(new LocalStrategy(
@@ -18,7 +19,7 @@ passport.use(new LocalStrategy(
       if (!user) {
         return done(null, false, { message: 'Invalid credentials.\n' });
       }
-      if (password != user.password) {
+      if (!bcrypt.compareSync(password, user.password)) {
         return done(null, false, { message: 'Invalid credentials.\n' });
       }
       return done(null, user);
