@@ -1,0 +1,33 @@
+body {
+  --border-radius: 5px;
+  --whitespace: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+input {
+  display: block;
+  width: 100%;
+}
+
+button {
+  color: white;
+  background: blue;
+  border: 0;
+  padding: 12px 14px;
+  border-radius: var(--border-radius);
+}
+
+.card {
+  max-width: 25rem;
+  background-color: gray;
+  margin: 0 auto;
+  border-radius: var(--border-radius);
+  padding: var(--whitespace);
+}
+
+.login-form {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
