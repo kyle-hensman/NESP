@@ -1,11 +1,64 @@
 import React from 'react';
+import axios from 'axios';
 import './App.css';
+
+const SideBar = props => (
+  <React.Fragment>
+    <div className="col-lg-2 bg-success">
+      <div className="sidebar">
+        yesir
+      </div>
+    </div>
+  </React.Fragment>
+);
+
+const MainScreen = props => (
+  <React.Fragment>
+    <div className="col-lg-7 bg-secondary">
+      <div className="main-screen">
+        mainz
+      </div>
+    </div>
+  </React.Fragment>
+);
+
+const Options = props => (
+  <React.Fragment>
+    <div className="col bg-info">
+      <div className="options">
+        yesir
+      </div>
+    </div>
+  </React.Fragment>
+);
+
+class AccountPanel extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      test: "You are now logged in"
+    }
+  }
+
+  render() {
+    return (
+      <div className="account-panel container-fluid">
+        <div className="row">
+          <SideBar />
+          <MainScreen />
+          <Options />
+        </div>
+      </div>
+    );
+  }
+}
 
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      user: null,
+      email: '',
       password: '',
     }
   }
@@ -20,23 +73,85 @@ class LoginForm extends React.Component {
     });
   }
 
-  handleFormSubmit = (e) => {
+  handleFormSubmit = async e => {
     e.preventDefault();
-    console.log('form sumbitted!');
-    console.log('state', this.state);
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+      const data = {
+        email: this.state.email,
+        password: this.state.password,
+      }
+
+      const response = await axios({
+        method: 'post',
+        url: '/login',
+        config: config,
+        data: data,
+      });
+
+      if (response) {
+        console.log(response);
+      }
+
+      if (response.data) {
+        console.log(response.data);
+        this.setState({
+          user: true,
+        })
+      }
+
+    // if (this.state.email !== '' && this.state.password !== '') {
+    //   const headers = { 'Content-Type': 'application/json' };
+
+    //   const data = {
+    //     email: this.state.email,
+    //     password: this.state.password,
+    //   }
+
+    //   const response = await axios({
+    //     method: 'post',
+    //     url: '/login',
+    //     headers: headers,
+    //     data: data,
+    //   });
+
+    //   if (response) {
+    //     console.log(response.data);
+    //     this.setState({
+    //       user: true,
+    //     })
+    //   }
+    // }
+
+    // console.log(response);
   }
 
   render() {
+
+    if (this.state.user) {
+      return (
+        <div className="bg-danger">
+          <AccountPanel />
+        </div>
+      );
+    }
+
     return (
       <div className="card">
+        <h2>Login to NESP</h2>
         <div className="card-body my-1">
           <form onSubmit={this.handleFormSubmit}>
             <input
-              name="username"
+              name="email"
               type="text"
               placeholder="Username"
               className="form-control"
-              value={this.state.username}
+              value={this.state.email}
               onChange={this.handleInputChange}
             />
             <input
@@ -58,8 +173,6 @@ class LoginForm extends React.Component {
 function App() {
   return (
     <div className="AppWrapper" style={{ textAlign: 'Center'}}>
-      <h1>Welcome to NESP Account Manager</h1>
-      <div style={{ marginTop: '25vh' }}></div>
       <LoginForm />
     </div>
   );

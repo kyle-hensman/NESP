@@ -1,4 +1,4 @@
-body {
+:root {
   --border-radius: 5px;
   --whitespace: 10px;
   --color-primary: #7d8491;
@@ -6,10 +6,29 @@ body {
   --color-dark: #3f334d;
   --color-light: #eaf0ce;
   --color-medium: #574b60;
+}
+
+html {
+  font-family: Arial, Helvetica, sans-serif;
+  position: relative;
+  min-height: 100%;
+}
+
+body {
   margin: 0;
   padding: 0;
   background: var(--color-secondary);
-  font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
+}
+
+#wrapper #content-wrapper {
+  background-color: var(--color-secondary);
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#content-wrapper #content {
+  flex: 1 0 auto;
 }
 
 .form-control {
@@ -17,7 +36,7 @@ body {
 }
 
 .card {
-  margin: 0 auto;
+  margin: 20vh auto 0 auto;
   max-width: 25rem;
   padding: var(--whitespace);
 }
@@ -26,6 +45,42 @@ body {
   font-size: 24px;
   background: transparent;
   border: 0;
+}
+
+.account-panel {
+  /* height: 100vh; */
+  min-height: 100vh;
+  color: var(--color-light);
+}
+
+.sidebar {
+  color: green;
+  min-height: 100vh;
+}
+
+.main-screen {
+  color: yellow;
+  min-height: 100vh;
+}
+
+.options {
+  display: none;
+}
+
+.options .open {
+  color: brown;
+  min-height: 100vh;
+  z-index: 1000px;
+}
+
+.options .close {
+  display: none;
+}
+
+@media screen and (min-width: 720px) {
+  .options {
+    display: block;
+  }
 }
 
 .btn-primary {
