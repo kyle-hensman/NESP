@@ -76,59 +76,47 @@ class LoginForm extends React.Component {
   handleFormSubmit = async e => {
     e.preventDefault();
 
+    this.setState({
+      loading: true,
+    })
+
+    if (this.state.email === '' || this.state.password === '') {
+      alert('Please enter a username and password.');
+      this.setState({
+        user: false,
+        loading: false,
+      });
+    }
+
     const config = {
       headers: {
         'Content-Type': 'application/json'
       }
     };
 
-      const data = {
-        email: this.state.email,
-        password: this.state.password,
-      }
+    const data = {
+      email: this.state.email,
+      password: this.state.password,
+    }
 
-      const response = await axios({
-        method: 'post',
-        url: '/login',
-        config: config,
-        data: data,
-      });
+    const response = await axios({
+      method: 'post',
+      url: '/login',
+      config,
+      data,
+    });
 
-      if (response) {
-        console.log(response);
-      }
-
-      if (response.data) {
-        console.log(response.data);
+    if (response) {
+      const data = response.data;
+      console.log('response data:', data);
+      if (data.success) {
+        console.log('response message:', data.message);
         this.setState({
           user: true,
+          loading: false,
         })
       }
-
-    // if (this.state.email !== '' && this.state.password !== '') {
-    //   const headers = { 'Content-Type': 'application/json' };
-
-    //   const data = {
-    //     email: this.state.email,
-    //     password: this.state.password,
-    //   }
-
-    //   const response = await axios({
-    //     method: 'post',
-    //     url: '/login',
-    //     headers: headers,
-    //     data: data,
-    //   });
-
-    //   if (response) {
-    //     console.log(response.data);
-    //     this.setState({
-    //       user: true,
-    //     })
-    //   }
-    // }
-
-    // console.log(response);
+    }
   }
 
   render() {
