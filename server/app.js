@@ -1,8 +1,9 @@
 //npm modules
 const express = require('express');
-const uuid = require('uuid/v4')
-const session = require('express-session')
-const FileStore = require('session-file-store')(session);
+const uuid = require('uuid/v4');
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
+// const FileStore = require('session-file-store')(session);
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -43,13 +44,14 @@ passport.deserializeUser((id, done) => {
 const app = express();
 
 // add & configure middleware
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(session({
   genid: (req) => {
     return uuid() // use UUIDs for session IDs
   },
-  store: new FileStore(),
+  // store: new FileStore(),
+  store: new RedisStore(),
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true
