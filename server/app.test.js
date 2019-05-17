@@ -14,12 +14,6 @@ describe('Check API endpoints', () => {
     });
   });
 
-  describe('GET /login', () => {
-    it('should return status 200', () => {
-      return request(app).get('/login').expect(200);
-    });
-  });
-
   describe('POST /login', () => {
     it('should respond with json', () => {
       return request(app)
